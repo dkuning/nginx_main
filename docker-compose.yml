@@ -32,7 +32,7 @@ services:
       -d tutor.kongius.ru
       -d www.tutor.kongius.ru
     depends_on:
-      - nginx
+      - nginx-central
     logging:
       driver: "json-file"
       options:
