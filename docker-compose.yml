@@ -29,8 +29,6 @@ services:
       --no-eff-email
       -d cbdc.kongius.ru
       -d www.cbdc.kongius.ru
-      -d tutor.kongius.ru
-      -d www.tutor.kongius.ru
     depends_on:
       - nginx-central
     logging:
