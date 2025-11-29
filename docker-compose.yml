@@ -44,3 +44,6 @@ services:
 networks:
   proxy-network:
     external: true
+
+volumes:
+  certbot-data:
