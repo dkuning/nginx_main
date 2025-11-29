@@ -1,0 +1,46 @@
+# docker-compose-central.yml
+services:
+  nginx-central:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./logs/central:/var/log/nginx
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    networks:
+      - proxy-network
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - certbot-data:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: >
+      certonly --webroot
+      --webroot-path=/var/www/certbot
+      --email kuning.denis@gmail.com
+      --agree-tos
+      --no-eff-email
+      -d cbdc.kongius.ru
+      -d www.cbdc.kongius.ru
+      -d tutor.kongius.ru
+      -d www.tutor.kongius.ru
+    depends_on:
+      - nginx
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    external: true
