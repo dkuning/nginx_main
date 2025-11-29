@@ -6,7 +6,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./logs/central:/var/log/nginx
+      - ./logs:/var/log/nginx
     restart: unless-stopped
     logging:
       driver: "json-file"
