@@ -8,6 +8,10 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./logs:/var/log/nginx
       - ./public:/app/public:ro
+#      - ./certs:/etc/letsencrypt
+#      - ./certs-data:/var/lib/letsencrypt
+#      - ./nginx/ssl/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf  # ← добавлено
+#      - ./nginx/ssl/ssl-dhparams.pem:/etc/letsencrypt/ssl-dhparams.pem  # ← опционально (см. ниже)
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -23,7 +27,6 @@ services:
       - ./certs:/etc/letsencrypt
       - ./certs-data:/var/lib/letsencrypt
       - ./logs:/var/log/letsencrypt
-      - /var/run/docker.sock:/var/run/docker.sock  # опционально
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     networks:
       - proxy-network
