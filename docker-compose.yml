@@ -17,6 +17,17 @@ services:
     networks:
       - proxy-network
 
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certs:/etc/letsencrypt
+      - ./certs-data:/var/lib/letsencrypt
+      - ./logs:/var/log/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock  # опционально
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - proxy-network
+
 networks:
   proxy-network:
     external: true
